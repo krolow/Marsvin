@@ -8,14 +8,16 @@ abstract class AbstractRequester
 
     protected $httpClient;
 
+    protected $adapter;
+
     public function __construct(
         \Evenement\EventEmitter $eventManager,
-        \Buzz\Browser $httpClient,
-        \Spork\ProcessManager $processManager
+        \Spork\ProcessManager $processManager,
+        RequesterAdapterInterface $adapter
     ) {
-        $this->eventManager = $eventManager;
-        $this->httpClient = $httpClient;
+        $this->eventManager   = $eventManager;
         $this->processManager = $processManager;
+        $this->adapter        = $adapter;
     }
 
     public function getHttpClient()
@@ -26,6 +28,11 @@ abstract class AbstractRequester
     public function getEventManager()
     {
         return $this->eventManager;
+    }
+
+    public function getAdapter()
+    {
+        return $this->adapter;
     }
 
 }

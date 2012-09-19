@@ -5,7 +5,8 @@ use Marsvin\ProviderInterface;
 use Marsvin\FactoryProvider;
 use Marsvin\RequesterResponse;
 use Marsvin\Response;
-
+use Evenement\EventEmitter;
+use Spork\ProcessManager;
 
 abstract class AbstractProvider implements ProviderInterface
 {
@@ -17,9 +18,14 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected $eventManager;
 
-    public function __construct(Marsvin\Adapter\AdapterProviderInterface $adapter)
-    {
-        $this->eventManager = $eventManager;
+    public function __construct(
+        EventEmitter $event, 
+        ProcessManager $process, 
+        ProviderAdapterInterface $providerAdapter
+    ) {
+        $this->event           = $event;
+        $this->process         = $process;
+        $this->providerAdapter = $providerAdapter;
     }
 
     /**
@@ -31,13 +37,13 @@ abstract class AbstractProvider implements ProviderInterface
     {
         $self = $this;
 
-        $this->adapter->getEventManager()->on(
+        $this->event->on(
             'requester.done', 
             function (ResponseInterface $response) use ($self) {
                 $self->getParser()->parse($response);
             }
         );
-        $this->adapter->getEventManager()->on(
+        $this->event->on(
             'parser.done',
             function (ResponseInterface $response) use ($self) {
                 $self->getPersister()->persists($response);
@@ -57,8 +63,7 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->factoryCreate(
             'requester', 
             array(
-                $this->container['evenement.emitter'],
-                $this->container['buzz'],
+                $adpter,
                 $this->container['spork']
             )
         );
@@ -74,8 +79,8 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->factoryCreate(
             'parser',
             array(
-                $this->container['evenement.emitter'],
-                $this->container['spork']
+                $this->event,
+                $this->process
             )
         );
     }
@@ -90,8 +95,8 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->factoryCreate(
             'persister',
             array(
-                $this->container['evenement.emitter'],
-                $this->container['spork']
+                $this->event,
+                $this->process
             )
         );
     }        
