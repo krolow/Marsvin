@@ -20,12 +20,10 @@ abstract class AbstractProvider implements ProviderInterface
 
     public function __construct(
         EventEmitter $event, 
-        ProcessManager $process, 
-        ProviderAdapterInterface $providerAdapter
+        ProcessManager $process
     ) {
         $this->event           = $event;
         $this->process         = $process;
-        $this->providerAdapter = $providerAdapter;
     }
 
     /**
