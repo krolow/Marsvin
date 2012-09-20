@@ -4,6 +4,6 @@ namespace Marsvin\Requester\Adapter;
 interface RequesterAdapterInterface
 {
     
-    public function getClient();
+    public function request($url);
 
 }
