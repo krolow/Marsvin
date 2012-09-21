@@ -62,7 +62,7 @@ abstract class AbstractLayer
 		$this->process
 			->fork($process)
 			->then(function (Spork\Fork $fork) {
-				$this->event->emit($this->getEventName, array($fork->getResult());
+				$this->event->emit($this->getEventName(), array($fork->getResult());
 			});
 	}
 
