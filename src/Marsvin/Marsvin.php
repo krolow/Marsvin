@@ -3,19 +3,28 @@ namespace Marsvin;
 
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
+use Marsvin\Requester\Request;
+use Marsvin\Provider;
 
 class Marsvin
 {
-    
-    public function __construct(EventEmitter $eventManager, ProcessManager $processManager)
-    {
-        $this->eventManager = $eventManager;
-        $this->processManager = $processManager;
+ 
+    private $event;
 
+    private $provider;
+
+    private $process;
+
+    public function __construct(EventEmitter $event = null, ProcessManager $process = null, ProviderInterface $provider = null)
+    {
+        $this->event = $event ?: new EventEmitter();
+        $this->process = $process ?: new ProcessManager();
+        $this->provider = $provider ?: new Provider();
     }
 
     public function request($callback)
     {
+        $request = new Request()
         $callback()
     }
 
