@@ -1,7 +1,7 @@
 <?php
 namespace Marsvin\Requester\Adapter;
 
-interface RequesterAdapterInterface
+interface AdapterInterface
 {
     
     public function request($url);

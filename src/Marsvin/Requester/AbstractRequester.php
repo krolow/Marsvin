@@ -1,38 +1,17 @@
 <?php
-namespace Marsvin;
+namespace Marsvin\Requester;
 
-abstract class AbstractRequester
+use Marsvin\AbstractLayer;
+use Marsvin\Requester\Adapter\AdapterInterface;
+
+abstract class AbstractRequester extends AbstractLayer
 {
 
-    protected $eventManager;
+	const EVENT_NAME = 'requester.done';
 
-    protected $httpClient;
-
-    protected $adapter;
-
-    public function __construct(
-        \Evenement\EventEmitter $eventManager,
-        \Spork\ProcessManager $processManager,
-        RequesterAdapterInterface $adapter
-    ) {
-        $this->eventManager   = $eventManager;
-        $this->processManager = $processManager;
-        $this->adapter        = $adapter;
-    }
-
-    public function getHttpClient()
+    public function __construct(EventEmmiter $event, ProcessManager $process, AdapterInterface $adapter)
     {
-        return $this->httpClient;
-    }
-
-    public function getEventManager()
-    {
-        return $this->eventManager;
-    }
-
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
+        parent::__construct($event, $process, $adapter);
+    }    
 
 }

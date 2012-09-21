@@ -7,6 +7,7 @@ use Marsvin\RequesterResponse;
 use Marsvin\Response;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
+use Marsvin\Provider\Adapter\AdapterInterface as ProviderAdapterInterface
 
 abstract class AbstractProvider implements ProviderInterface
 {
@@ -20,10 +21,12 @@ abstract class AbstractProvider implements ProviderInterface
 
     public function __construct(
         EventEmitter $event, 
-        ProcessManager $process
+        ProcessManager $process,
+        ProviderAdapterInterface $adapter
     ) {
-        $this->event           = $event;
-        $this->process         = $process;
+        $this->event   = $event;
+        $this->process = $process;
+        $this->adapter = $adapter;
     }
 
     /**
@@ -35,16 +38,20 @@ abstract class AbstractProvider implements ProviderInterface
     {
         $self = $this;
 
+        $parser = $this->getParser();
+        $requester = $this->getRequester();
+        $persister = $this->getPersister();
+
         $this->event->on(
-            'requester.done', 
-            function (ResponseInterface $response) use ($self) {
-                $self->getParser()->parse($response);
+            $parser->getEventName(), 
+            function (ResponseInterface $response) use ($parser) {
+                $parser->parse($response);
             }
         );
         $this->event->on(
-            'parser.done',
+            $parser->getEventName(),
             function (ResponseInterface $response) use ($self) {
-                $self->getPersister()->persists($response);
+                $persister->persist($response);
             }
         );
 
@@ -61,8 +68,9 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->factoryCreate(
             'requester', 
             array(
-                $adpter,
-                $this->container['spork']
+                $this->event,
+                $this->process,
+                $this->adapter->getRequesterAdapter()
             )
         );
     }
@@ -78,7 +86,8 @@ abstract class AbstractProvider implements ProviderInterface
             'parser',
             array(
                 $this->event,
-                $this->process
+                $this->process,
+                $this->adapter->getParserAdapter()
             )
         );
     }
@@ -94,7 +103,8 @@ abstract class AbstractProvider implements ProviderInterface
             'persister',
             array(
                 $this->event,
-                $this->process
+                $this->process,
+                $this->adapter->getPersisterAdapter()
             )
         );
     }        

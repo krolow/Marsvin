@@ -4,7 +4,7 @@ namespace Marsvin;
 class Loader
 {
     
-	private $providerClass;
+    private $providerClass;
 
     public function __construct($providerClass)
     {

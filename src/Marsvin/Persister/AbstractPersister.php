@@ -1,35 +1,18 @@
 <?php
 namespace Marsvin\Persister;
 
-abstract class AbstractPersister
+use Marsvin\AbastractLayer;
+use Marsvin\Persister\Adapter\AdapterInterface;
+
+
+abstract class AbstractPersister extends AbstractLayer
 {
-    
-    protected $eventManager;
 
-    protected $processManager;
+	const EVENT_NAME = 'persister.done';
 
-    public function __construct(
-        \Evenement\EventEmitter $eventManager,
-        \Spork\ProcessManager $processManager,
-        Marsvin\Persister\AdapterPersisterInterface $adapter
-    ) {
-        $this->eventManager     = $eventManager;
-        $this->processManager   = $processManager;
-        $this->adpter           = $adapter;
-    }
-
-    public function getProcessManager()
+    public function __construct(EventEmmiter $event, ProcessManager $process, AdapterInterface $parser)
     {
-        return $this->processManager;
+        parent::__construct($event, $process, $parser);
     }
 
-    public function getEventManager()
-    {
-        return $this->eventManager;
-    }
-
-    public function getAdapter()
-    {
-        return $this->adapter;
-    }
 }

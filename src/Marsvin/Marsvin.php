@@ -14,23 +14,23 @@ class Marsvin
 
     }
 
-    public function request()
+    public function request($callback)
     {
-
+        $callback()
     }
 
-    public function parse()
+    public function parse(Parse $parse)
     {
-
+        $parser->parse();
     }
 
-    public function persist()
+    public function persist(Persist $persist)
     {
-
+        $persist->persist();
     }
 
 
-    public function import()
+    public function run()
     {
 
     }
