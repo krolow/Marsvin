@@ -1,7 +1,7 @@
 {
     "name" : "cobaia/marsvin",
-    "description" : "Marsvin it's a bootstrap for Crawler applications",
-    "keywords" : ["crawler", "provider", "cilex", "symfony", "bundle"],
+    "description" : "Marsvin it's a framework to write crawler applications",
+    "keywords" : ["crawler", "framework"],
     "homepage" : "https://github.com/krolow/Marsvin",
     "license" : "MIT",
     "authors" : [
