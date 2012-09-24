@@ -22,26 +22,31 @@ class Marsvin
         $this->provider = $provider ?: new Provider();
     }
 
-    public function request($callback)
+    public function request($handle)
     {
-        $request = new Request()
-        $callback()
+        $this->provider->getRequester()->setHandle($handle);
+
+        return $this;
     }
 
-    public function parse(Parse $parse)
+    public function parse($handle)
     {
-        $parser->parse();
+        $this->provider->getParser()->setHandle($handle);
+
+        return $this;
     }
 
-    public function persist(Persist $persist)
+    public function persist($handle)
     {
-        $persist->persist();
+        $this->provider->getPersister()->setHandle($handle);
+
+        return $this;
     }
 
 
     public function run()
     {
-
+        $this->provider->import();
     }
 
 }

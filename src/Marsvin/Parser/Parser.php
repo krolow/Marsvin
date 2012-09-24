@@ -1,19 +1,20 @@
 <?php
 namespace Marsvins\Parser;
 
+use Marsvin\ResponseInterface;
+
 class Parser extends AbstractParser implements ParserInterface
 {
     
-    private $parser = $parser;
+    private $handle;
 
-    public function __construct($parser)
-    {
-        if (!is_callable($parser)) {
-            throw new \InvalidArgumentException(
-                'The given parser must be anonymous function'
-            );
-        }
-        $this->parser = $parser;
+    public function setHandle($handle) {
+        $this->handle = $handle;
     }
-    
+
+    public function parse(ResponseInterface $response)
+    {
+        $this->handle($this, $response);
+    }
+
 }
