@@ -13,8 +13,8 @@ class Loader
 
     public function load()
     {
-       if (!class_exists($this->providerClass)) {
-       		throw new \InvalidArgumentException(
+        if (!class_exists($this->providerClass)) {
+            throw new \InvalidArgumentException(
        			sprintf(
        				'It was not possible to load the given provider class %s',
        				$this->providerClass

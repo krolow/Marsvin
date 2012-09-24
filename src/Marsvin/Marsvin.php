@@ -3,8 +3,8 @@ namespace Marsvin;
 
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
-use Marsvin\Requester\Request;
 use Marsvin\Provider;
+use Marsvin\Provider\Adapter\DefaultAdapter as ProviderDefaultAdapter;
 
 class Marsvin
 {
@@ -19,7 +19,7 @@ class Marsvin
     {
         $this->event = $event ?: new EventEmitter();
         $this->process = $process ?: new ProcessManager();
-        $this->provider = $provider ?: new Provider();
+        $this->provider = $provider ?: new Provider(new ProviderDefaultAdapter($event, $process));
     }
 
     public function request($handle)

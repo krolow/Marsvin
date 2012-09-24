@@ -13,14 +13,6 @@ class Provider extends AbstractProvider implements ProviderInterface
 
 	private $persister;
 
-    public function __construct(
-        EventEmitter $event, 
-        ProcessManager $process,
-        ProviderAdapterInterface $adapter
-    ) {
-    	parent::__construct($event, $process, $adapter);
-    }
-
     /**
      * Create requester Object
      * 
