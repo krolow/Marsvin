@@ -1,11 +1,11 @@
 <?php
 namespace Marsvin\Persister\Adapter;
 
-interface PersisterAdapterInterface
+interface AdapterInterface
 {
-	
-	public function persist();
 
-	public function flush();
+    public function persist();
+
+    public function flush();
 
 }

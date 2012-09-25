@@ -1,9 +1,9 @@
 <?php
 namespace Marsvin\Requester\Adapter;
 
-interface AdapterInterface
+interface RequesterAdapterInterface
 {
-    
+
     public function request($url);
 
 }

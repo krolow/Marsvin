@@ -1,37 +1,32 @@
 <?php
-namespace Marsvin;
+namespace Marsvin\Provider;
 
-use Marsvin\ProviderInterface;
-use Marsvin\FactoryProvider;
-use Marsvin\RequesterResponse;
 use Marsvin\Response;
+use Marsvin\AbstractLayer;
+use Marsvin\Provider\ProviderInterface;
+use Marsvin\Provider\Adapter\AdapterInterface as ProviderAdapterInterface;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
-use Marsvin\Provider\Adapter\AdapterInterface as ProviderAdapterInterface
 
-abstract class AbstractProvider implements ProviderInterface
+abstract class AbstractProvider extends AbstractLayer implements ProviderInterface
 {
 
     /**
      * Dependecy Injection Container
-     * 
+     *
      * @var \Evenement\EventEmitter
      */
     protected $eventManager;
 
     public function __construct(
-        EventEmitter $event, 
-        ProcessManager $process,
         ProviderAdapterInterface $adapter
     ) {
-        $this->event   = $event;
-        $this->process = $process;
-        $this->adapter = $adapter;
+        parent::__construct($adapter->getEvent(), $adapter->getProcess(), $adapter);
     }
 
     /**
      * Import the Provider
-     * 
+     *
      * @return void
      */
     public function import()
@@ -43,7 +38,7 @@ abstract class AbstractProvider implements ProviderInterface
         $persister = $this->getPersister();
 
         $this->event->on(
-            $parser->getEventName(), 
+            $parser->getEventName(),
             function (ResponseInterface $response) use ($parser) {
                 $parser->parse($response);
             }
@@ -60,13 +55,13 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * Create requester Object
-     * 
+     *
      * @return RequesterInterface
      */
     public function getRequester()
     {
         return $this->factoryCreate(
-            'requester', 
+            'requester',
             array(
                 $this->event,
                 $this->process,
@@ -74,10 +69,10 @@ abstract class AbstractProvider implements ProviderInterface
             )
         );
     }
-    
+
     /**
      * Create parser object
-     * 
+     *
      * @return ParserInterface
      */
     public function getParser()
@@ -94,7 +89,7 @@ abstract class AbstractProvider implements ProviderInterface
 
     /**
      * Create persister object
-     * 
+     *
      * @return PersisterInterface
      */
     public function getPersister()
@@ -107,13 +102,13 @@ abstract class AbstractProvider implements ProviderInterface
                 $this->adapter->getPersisterAdapter()
             )
         );
-    }        
+    }
 
     /**
      * Call factory to create the given type of object
-     * 
-     * @param  string $type Given type to be created
-     * 
+     *
+     * @param string $type Given type to be created
+     *
      * @return PersisterInterface|ParserInterface|RequesterInterface
      */
     private function factoryCreate($type, $arguments = array())
@@ -131,7 +126,6 @@ abstract class AbstractProvider implements ProviderInterface
         array_pop($class);
 
         $provider = end($class);
-
 
         return implode('\\', $class) . '\\' . $provider;
     }

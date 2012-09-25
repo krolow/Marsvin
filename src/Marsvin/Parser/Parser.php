@@ -5,10 +5,11 @@ use Marsvin\ResponseInterface;
 
 class Parser extends AbstractParser implements ParserInterface
 {
-    
+
     private $handle;
 
-    public function setHandle($handle) {
+    public function setHandle($handle)
+    {
         $this->handle = $handle;
     }
 

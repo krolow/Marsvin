@@ -7,10 +7,11 @@ use Marsvin\ResponseInterface;
 
 class Persister extends AbstractPersister implements PersisterInterface
 {
-	
+
     private $handle;
 
-    public function setHandle($handle) {
+    public function setHandle($handle)
+    {
         $this->handle = $handle;
     }
 

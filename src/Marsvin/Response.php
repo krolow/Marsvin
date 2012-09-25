@@ -5,7 +5,7 @@ use Marsvin\ResponseInterface;
 
 class Response implements ResponseInterface
 {
-    
+
     private $response;
 
     public function __construct($response)

@@ -4,16 +4,16 @@ namespace Marsvin\Requester\Adapter;
 class DefaultAdapter implements AdapterInterface
 {
 
-	private $url;
+    private $url;
 
-	public function request($url)
-	{
-		$this->url = $url;
-	}
+    public function request($url)
+    {
+        $this->url = $url;
+    }
 
-	public function getUrl()
-	{
-		return $this->url;
-	}
-	
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
 }

@@ -8,7 +8,7 @@ use Marsvin\Provider\Adapter\DefaultAdapter as ProviderDefaultAdapter;
 
 class Marsvin
 {
- 
+
     private $event;
 
     private $provider;
@@ -42,7 +42,6 @@ class Marsvin
 
         return $this;
     }
-
 
     public function run()
     {

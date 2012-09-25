@@ -5,20 +5,20 @@ use Marsvin\Persister\Adapter\AdapterInterface;
 
 class DefaultAdapter implements AdapterInterface
 {
-	
-	private $entities = array();
 
-	public function persist($entity)
-	{
-		array_push(
-			$this->entities,
-			$entity
-		);
-	}
+    private $entities = array();
 
-	public function flush()
-	{
-		$this->entities;
-	}
+    public function persist($entity)
+    {
+        array_push(
+            $this->entities,
+            $entity
+        );
+    }
+
+    public function flush()
+    {
+        $this->entities;
+    }
 
 }

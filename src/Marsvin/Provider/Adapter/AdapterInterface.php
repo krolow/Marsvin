@@ -1,13 +1,17 @@
 <?php
-namespace Marsven\Adapter;
+namespace Marsvin\Provider\Adapter;
 
 interface AdapterInterface
 {
-	
-	public function getPersisterAdapter();
 
-	public function getParserAdapter();
+    public function getEvent();
 
-	public function getRequesterAdapter();
+    public function getProcess();
+
+    public function getPersisterAdapter();
+
+    public function getParserAdapter();
+
+    public function getRequesterAdapter();
 
 }
