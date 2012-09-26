@@ -3,6 +3,9 @@ namespace Marsvin\Provider;
 
 use Marsvin\Provider\ProviderInterface;
 use Marsvin\Provider\AbstractProvider;
+use Marsvin\Requester\Adapter\BuzzAdapter;
+use Marsvin\Parser\Adapter\DomAdapter;
+use Marsvin\Persister\Adapter\DefaultAdapter;
 
 class Provider extends AbstractProvider implements ProviderInterface
 {
@@ -13,58 +16,19 @@ class Provider extends AbstractProvider implements ProviderInterface
 
     private $persister;
 
-    /**
-     * Create requester Object
-     *
-     * @return RequesterInterface
-     */
-    public function getRequester()
+    public function getRequesterAdapter()
     {
-        if (!$this->requester) {
-            $this->requester = new Requester(
-                $this->event,
-                $this->process,
-                $this->adapter->getRequesterAdapter()
-            );
-        }
-
-        return $this->requester;
+        return new BuzzAdapter();
     }
 
-    /**
-     * Create parser object
-     *
-     * @return ParserInterface
-     */
-    public function getParser()
+    public function getParserAdapter()
     {
-        if (!$this->parser) {
-            $this->parser =  new Parser(
-                $this->event,
-                $this->process,
-                $this->adapter->getParserAdapter()
-            );
-        }
-
-        return $this->parser;
+        return new DomAdapter();
     }
 
-    /**
-     * Create persister object
-     *
-     * @return PersisterInterface
-     */
-    public function getPersister()
+    public function getPersisterAdapter()
     {
-        if (!$this->persister) {
-            $this->persister = new Persister(
-                $this->event,
-                $this->process,
-                $this->adpter->getPersisterAdapter()
-            );
-        }
-
-        return $this->persister;
+        return new DefaultAdapter();
     }
 
 }

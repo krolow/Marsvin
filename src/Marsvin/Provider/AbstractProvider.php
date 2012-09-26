@@ -7,21 +7,19 @@ use Marsvin\Provider\ProviderInterface;
 use Marsvin\Provider\Adapter\AdapterInterface as ProviderAdapterInterface;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
+use Spork\EventDispatcher\EventDispatcher;
 
 abstract class AbstractProvider extends AbstractLayer implements ProviderInterface
 {
 
-    /**
-     * Dependecy Injection Container
-     *
-     * @var \Evenement\EventEmitter
-     */
-    protected $eventManager;
+    protected $event;
 
-    public function __construct(
-        ProviderAdapterInterface $adapter
-    ) {
-        parent::__construct($adapter->getEvent(), $adapter->getProcess(), $adapter);
+    protected $process;
+
+    public function __construct(EventEmitter $event, ProcessManager $process)
+    {
+        $this->event = $event ?: new EventEmitter();
+        $this->process = $process ?: new ProcessManager(new EventDispatcher());
     }
 
     /**
@@ -65,7 +63,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
             array(
                 $this->event,
                 $this->process,
-                $this->adapter->getRequesterAdapter()
+                $this->getRequesterAdapter()
             )
         );
     }
@@ -82,7 +80,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
             array(
                 $this->event,
                 $this->process,
-                $this->adapter->getParserAdapter()
+                $this->getParserAdapter()
             )
         );
     }
@@ -99,7 +97,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
             array(
                 $this->event,
                 $this->process,
-                $this->adapter->getPersisterAdapter()
+                $this->getPersisterAdapter()
             )
         );
     }
