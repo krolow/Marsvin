@@ -1,9 +1,9 @@
 <?php
-namespace Test\Marsvin;
+namespace Test\Marsvin\Provider;
 
-use Marsvin\Marsvin;
+use Marsvin\Provider\Provider;
 
-class MarsvinTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends \PHPUnit_Framework_TestCase
 {
 
     private $marsvin;
@@ -11,28 +11,11 @@ class MarsvinTest extends \PHPUnit_Framework_TestCase
     protected function setup()
     {
         $this->event    = $this->getMock('Evenement\EventEmmiter');
-        $this->process  = $this->getMock(
-            'Spork\ProcessManager', 
-            array(), 
-            array(
-                $this->getMock('Spork\EventDispatcher\EventDispatcher')
-            )
-        );
+        $this->process  = $this->getMock('Spork\ProcessManager');
         $this->provider = $this->getMock(
             'Marsvin\Provider\Provider',
             array(),
-            array(
-                $this->getMock(
-                    'Marsvin\Provider\Adapter\DefaultAdapter',
-                    array(
-                        
-                    ),
-                    array(
-                        $this->event,
-                        $this->process
-                    )
-                )
-            )
+            $this->getMock('Spork\EventDispatcher\EventDispatcher')
         );
         $this->marsvin = new Marsvin($this->event, $this->process, $this->provider);
     }
