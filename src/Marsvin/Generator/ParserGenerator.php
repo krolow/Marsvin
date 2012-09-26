@@ -36,7 +36,7 @@ class ParserGenerator extends Generator
         
         $parameters = array(
             'namespace' => $this->getNamespace(),
-            'Parser' => $this->getClassName() . self::SUFIX
+            'parser' => $this->getClassName() . self::SUFIX
         );
 
         $this->renderFile($parameters);

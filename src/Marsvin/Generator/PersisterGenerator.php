@@ -36,7 +36,7 @@ class PersisterGenerator extends Generator
         
         $parameters = array(
             'namespace' => $this->getNamespace(),
-            'Persister' => $this->getClassName() . self::SUFIX
+            'persister' => $this->getClassName() . self::SUFIX
         );
 
         $this->renderFile($parameters);

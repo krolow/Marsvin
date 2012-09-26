@@ -1,14 +1,14 @@
 <?php
 namespace {{ namespace }}\Parser;
 
-use Marsvin\Provider\AbstractParser;
-use Marsvin\Provider\ParserInterface;
+use Marsvin\Parser\AbstractParser;
+use Marsvin\Parser\ParserInterface;
 use Marsvin\ResponseInterface;
 
 class {{ parser }} extends AbstractParser implements ParserInterface
 {
     
-    public function parser(ResponseInterface $response)
+    public function parse(ResponseInterface $response)
     {
         $adapter = $this->getAdapter();
     }
