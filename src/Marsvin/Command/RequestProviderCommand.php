@@ -19,7 +19,7 @@ class RequestProviderCommand extends Command
                     new InputArgument(
                         'provider',
                         InputArgument::REQUIRED,
-                        'The provider name to be requested'
+                        'The provider class to be requested'
                     )
                 )
             )->setHelp('This command will request the given provider');
@@ -27,8 +27,9 @@ class RequestProviderCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $loader = new Loader();
-        $loader->load($input->getArgument('provider'));
+        $loader = new Loader($input->getArgument('provider'));
+        $provider = $loader->load();
+        $provider->import();
     }
 
 }

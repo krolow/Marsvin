@@ -16,7 +16,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
 
     protected $process;
 
-    public function __construct(EventEmitter $event, ProcessManager $process)
+    public function __construct(EventEmitter $event = null, ProcessManager $process = null)
     {
         $this->event = $event ?: new EventEmitter();
         $this->process = $process ?: new ProcessManager(new EventDispatcher());
@@ -131,7 +131,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
             return reset($class) . '\\' .  $type . '\\';
         }
 
-        return implode('\\', $class) . '\\' . $provider . '\\';
+        return implode('\\', $class) . '\\' . $provider;
     }
 
 }

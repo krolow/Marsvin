@@ -22,9 +22,11 @@ class Loader
                );
         }
 
-        $provider = new $class($container);
+        $provider = new $this->providerClass($container);
 
-        if ($provider instanceof Marsvin\Provider\ProviderInterface) {
+        $interface = 'Marsvin\\Provider\\ProviderInterface';
+
+        if ($provider instanceof $interface) {
             return $provider;
         }
 
