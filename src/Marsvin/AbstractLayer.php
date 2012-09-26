@@ -15,11 +15,10 @@ abstract class AbstractLayer
 
     protected $eventName;
 
-    public function __construct(EventEmitter $event, ProcessManager $process, AdapterInterface $adapter)
+    public function __construct(EventEmitter $event, ProcessManager $process)
     {
         $this->event   = $event;
         $this->process = $process;
-        $this->adapter = $adapter;
     }
 
     public function getEvent($event)
@@ -30,11 +29,6 @@ abstract class AbstractLayer
     public function getProcess($process)
     {
         return $this->process;
-    }
-
-    public function getAdapter()
-    {
-        return $this->adapter;
     }
 
     public function setEventName($eventName)

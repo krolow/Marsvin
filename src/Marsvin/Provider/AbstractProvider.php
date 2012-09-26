@@ -4,7 +4,7 @@ namespace Marsvin\Provider;
 use Marsvin\Response;
 use Marsvin\AbstractLayer;
 use Marsvin\Provider\ProviderInterface;
-use Marsvin\Provider\Adapter\AdapterInterface as ProviderAdapterInterface;
+use Marsvin\Provider\ProviderFactory;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
 use Spork\EventDispatcher\EventDispatcher;
@@ -112,20 +112,26 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
     private function factoryCreate($type, $arguments = array())
     {
         return ProviderFactory::create(
-            $this->getClassName(),
+            $this->getClassName($type),
             $type,
             $arguments
         );
     }
 
-    public function getClassName()
+    public function getClassName($type)
     {
         $class = explode('\\', get_called_class());
         array_pop($class);
 
         $provider = end($class);
 
-        return implode('\\', $class) . '\\' . $provider;
+        if ($provider === 'Provider') {
+            $type = ucfirst($type);
+
+            return reset($class) . '\\' .  $type . '\\';
+        }
+
+        return implode('\\', $class) . '\\' . $provider . '\\';
     }
 
 }

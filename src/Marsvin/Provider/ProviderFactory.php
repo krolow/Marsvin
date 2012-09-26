@@ -1,5 +1,7 @@
 <?php
-namespace Marsvin;
+namespace Marsvin\Provider;
+
+use ReflectionClass;
 
 class ProviderFactory
 {
@@ -17,7 +19,7 @@ class ProviderFactory
     {
         $class = $class . ucfirst($type);
 
-        $refClass = new \ReflectionClass($class);
+        $refClass = new ReflectionClass($class);
         $object = $refClass->newInstanceArgs($args);
 
         return $object;

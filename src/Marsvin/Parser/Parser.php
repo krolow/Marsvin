@@ -1,6 +1,8 @@
 <?php
-namespace Marsvins\Parser;
+namespace Marsvin\Parser;
 
+use Marsvin\Parser\AbstractParser;
+use Marsvin\Parser\ParserInterface;
 use Marsvin\ResponseInterface;
 
 class Parser extends AbstractParser implements ParserInterface

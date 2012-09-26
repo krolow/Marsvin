@@ -10,38 +10,34 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
     protected function setup()
     {
-        $this->event    = $this->getMock('Evenement\EventEmmiter');
-        $this->process  = $this->getMock('Spork\ProcessManager');
-        $this->provider = $this->getMock(
-            'Marsvin\Provider\Provider',
-            array(),
-            $this->getMock('Spork\EventDispatcher\EventDispatcher')
+        $this->event    = $this->getMock('Evenement\EventEmitter');
+        $this->process  = $this->getMock(
+            'Spork\ProcessManager', 
+            array(), 
+            array(
+                $this->getMock('Spork\EventDispatcher\EventDispatcher')
+            )
         );
-        $this->marsvin = new Marsvin($this->event, $this->process, $this->provider);
+        $this->provider = new Provider($this->event, $this->process);
     }
 
     protected function tearDown()
     {
-        $this->marsvin = null;
+        $this->provider = null;
     }
 
-    public function testBasicMethods()
+    public function testInstanceOfAdapters()
     {
-        $this->marsvin->request(function (RequesterInterface $request) {
-            $data = $request->getAdapter()->request('http://google.com');
+        $this->assertInstanceOf('Marsvin\\Requester\\Adapter\\AdapterInterface', $this->provider->getRequesterAdapter());
+        $this->assertInstanceOf('Marsvin\\Parser\\Adapter\\AdapterInterface', $this->provider->getParserAdapter());
+        $this->assertInstanceOf('Marsvin\\Persister\\Adapter\\AdapterInterface', $this->provider->getPersisterAdapter());
+    }
 
-            return new Response($data);
-        })->parse(function (ParserInterface $parser, ResponseInterface $response) {
-            $data = $parse->getAdapter()->parse($response->get());
-
-            return new Response($data);
-        })->persist(function (PersisterInterface $persister, ResponseInterface $response) {
-            $entities = $response->get();
-            foreach ($entitis as $entity) {
-                $persister->getAdapter()->persist($entity);
-            }
-            $persister->getAdapter()->flush();
-        });
+    public function testCreationOfRequester()
+    {
+        $this->assertInstanceOf('Marsvin\\Requester\\RequesterInterface', $this->provider->getRequester());
+        $this->assertInstanceOf('Marsvin\\Parser\\ParserInterface', $this->provider->getParser());
+        $this->assertInstanceOf('Marsvin\\Persister\\PersisterInterface', $this->provider->getPersister());
     }
 
 }

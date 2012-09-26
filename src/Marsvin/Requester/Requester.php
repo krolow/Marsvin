@@ -2,6 +2,7 @@
 namespace Marsvin\Requester;
 
 use Marsvin\ResponseInterface;
+use Marsvin\Requester\RequesterInterface;
 
 class Requester extends AbstractRequester implements RequesterInterface
 {
@@ -13,7 +14,7 @@ class Requester extends AbstractRequester implements RequesterInterface
         $this->handle = $handle;
     }
 
-    public function request(ResponseInterface $response)
+    public function request()
     {
         $this->handle($this, $response);
     }

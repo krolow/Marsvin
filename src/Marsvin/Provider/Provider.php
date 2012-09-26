@@ -10,12 +10,6 @@ use Marsvin\Persister\Adapter\DefaultAdapter;
 class Provider extends AbstractProvider implements ProviderInterface
 {
 
-    private $requester;
-
-    private $parser;
-
-    private $persister;
-
     public function getRequesterAdapter()
     {
         return new BuzzAdapter();

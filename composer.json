@@ -14,7 +14,8 @@
         "php" : ">=5.3.0",
         "symfony/console"       : "2.1.*",
         "evenement/evenement"   : "1.0.0",
-        "kriswallsmith/spork"   : "0.1"
+        "kriswallsmith/spork"   : "0.1",
+        "kriswallsmith/buzz"    : "0.7"
     },
     "autoload" : {
         "psr-0" : {

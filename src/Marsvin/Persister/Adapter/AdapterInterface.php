@@ -4,7 +4,7 @@ namespace Marsvin\Persister\Adapter;
 interface AdapterInterface
 {
 
-    public function persist();
+    public function persist($entity);
 
     public function flush();
 

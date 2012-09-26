@@ -15,7 +15,7 @@ class Persister extends AbstractPersister implements PersisterInterface
         $this->handle = $handle;
     }
 
-    public function parse(ResponseInterface $response)
+    public function persists(ResponseInterface $response)
     {
         $this->handle($this, $response);
     }

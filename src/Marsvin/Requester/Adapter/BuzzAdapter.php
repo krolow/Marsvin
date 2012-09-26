@@ -1,15 +1,15 @@
 <?php
-namespace Marsvins\Requester\Adapter;
+namespace Marsvin\Requester\Adapter;
 
 use Buzz\Browser;
-use Marsvin\Requester\AdapterInterface;
+use Marsvin\Requester\Adapter\AdapterInterface;
 
 class BuzzAdapter implements AdapterInterface
 {
 
-    public function __construct(Browser $httpClient)
+    public function __construct(Browser $httpClient = null)
     {
-        $this->httpClient = $httpClient;
+        $this->httpClient = $httpClient ?: new Browser();
     }
 
     public function request($url)
