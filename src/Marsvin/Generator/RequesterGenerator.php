@@ -5,10 +5,10 @@ use Marsvin\Generator\Generator;
 use SplFileObject;
 use RuntimeException;
 
-class ProviderGenerator extends Generator
+class RequesterGenerator extends Generator
 {
 
-    const SUFIX = 'Provider';
+    const SUFIX = 'Requester';
 
     public function __construct($namespace, $name)
     {
@@ -25,18 +25,18 @@ class ProviderGenerator extends Generator
     {
         $dir = $this->getDir();
 
-        if (is_dir($dir)) {
+        if (!is_dir($dir)) {
             throw new RuntimeException(
                 sprintf(
-                    'It\'s not possible to generate the provider as the dir %s is not empty',
+                    'It\'s not possible to generate the requester as the dir %s is empty',
                     $dir
                 )
             );
         }
-        
+
         $parameters = array(
             'namespace' => $this->getNamespace(),
-            'provider' => $this->getClassName() . self::SUFIX
+            'requester' => $this->getClassName() . self::SUFIX
         );
 
         $this->renderFile($parameters);

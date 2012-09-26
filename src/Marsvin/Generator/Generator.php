@@ -2,6 +2,7 @@
 namespace Marsvin\Generator;
 
 use SplFileObject;
+use RuntimeException;
 
 class Generator
 {
@@ -17,9 +18,24 @@ class Generator
         $this->skeleton = $skeleton;
     }
 
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    public function setNamespace($namespace)
+    {
+        $this->namespace = $namespace;
+    }
+
     public function getDir()
     {
-        return $this->dir . DIRECTORY_SEPARATOR . strstr($this->namespace, '\\', '/');
+        return $this->dir . DIRECTORY_SEPARATOR . $this->getClassName() . DIRECTORY_SEPARATOR;
+    }
+
+    public function setDir($dir)
+    {
+        $this->dir = $dir;
     }
 
     public function getClassName()
@@ -27,12 +43,39 @@ class Generator
         return end(explode('\\', $this->namespace));
     }
 
-    public function renderFile($path, $parameters)
+    public function renderFile($parameters)
     {
-        $content = file_get_contents($this->skeleton);
-        $content = str_replace(array_keys($parameters), array_values($parameters), $content);
+        if (!is_dir($this->getDir())) {
+            mkdir($this->getDir(), 0777, true);
+        }
 
-        var_dump($content);
+        $content = file_get_contents($this->skeleton);
+
+        $placeholders = $this->preparePlaceholders($parameters);
+        $content = str_replace($placeholders, array_values($parameters), $content);
+
+        $sufix = '';
+
+        if (static::SUFIX) {
+            $sufix = static::SUFIX;
+        }
+
+        file_put_contents($this->getDir() . $this->getClassName() . $sufix . '.php', $content);
+    }
+
+    protected function preparePlaceholders($parameters)
+    {
+        $placeholders = array();
+
+        foreach ($parameters as $key => $value)
+        {
+            array_push(
+                $placeholders,
+                '{{ ' . $key . ' }}'
+            );
+        }
+
+        return $placeholders;
     }
 
 }

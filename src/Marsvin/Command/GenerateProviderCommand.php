@@ -5,6 +5,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Marsvin\Generator\ProviderGenerator;
+use Marsvin\Generator\RequesterGenerator;
+use Marsvin\Generator\ParserGenerator;
+use Marsvin\Generator\PersisterGenerator;
 
 class GenerateProviderCommand extends Command
 {
@@ -58,6 +62,13 @@ EOT
             $input->getArgument('namespace'),
             $input->getArgument('dir')
         );
+
+        $provider->generate();
+        $requester->generate();
+        $parser->generate();
+        $persister->generate();
+
+        $output->writeln(sprintf('Provider %s created!', $input->getArgument('namespace')));
     }
 
 }
