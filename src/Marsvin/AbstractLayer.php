@@ -3,6 +3,7 @@ namespace Marsvin;
 
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
+use Spork\Fork;
 
 abstract class AbstractLayer
 {
@@ -21,12 +22,12 @@ abstract class AbstractLayer
         $this->process = $process;
     }
 
-    public function getEvent($event)
+    public function getEvent()
     {
         return $this->event;
     }
 
-    public function getProcess($process)
+    public function getProcess()
     {
         return $this->process;
     }
@@ -56,8 +57,8 @@ abstract class AbstractLayer
         $this->process
             ->fork($process)
             ->then(
-                function (Spork\Fork $fork) use ($self) {
-                    $self->event->emit(
+                function (Fork $fork) use ($self) {
+                    $self->getEvent()->emit(
                         $self->getEventName(), 
                         array($fork->getResult())
                     );
