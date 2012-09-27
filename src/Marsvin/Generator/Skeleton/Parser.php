@@ -1,5 +1,5 @@
 <?php
-namespace {{ namespace }}\Parser;
+namespace {{ namespace }};
 
 use Marsvin\Parser\AbstractParser;
 use Marsvin\Parser\ParserInterface;
