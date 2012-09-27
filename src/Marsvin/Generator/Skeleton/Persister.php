@@ -3,6 +3,7 @@ namespace {{ namespace }};
 
 use Marsvin\Persister\AbstractPersister;
 use Marsvin\Persister\PersisterInterface;
+use Marsvin\Response;
 use Marsvin\ResponseInterface;
 
 class {{ persister }} extends AbstractPersister implements PersisterInterface

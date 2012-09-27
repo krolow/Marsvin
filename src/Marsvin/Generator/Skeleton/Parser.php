@@ -3,6 +3,7 @@ namespace {{ namespace }};
 
 use Marsvin\Parser\AbstractParser;
 use Marsvin\Parser\ParserInterface;
+use Marsvin\Response;
 use Marsvin\ResponseInterface;
 
 class {{ parser }} extends AbstractParser implements ParserInterface
