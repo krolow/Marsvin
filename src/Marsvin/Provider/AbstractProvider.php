@@ -1,7 +1,7 @@
 <?php
 namespace Marsvin\Provider;
 
-use Marsvin\Response;
+use Marsvin\ResponseInterface;
 use Marsvin\AbstractLayer;
 use Marsvin\Provider\ProviderInterface;
 use Marsvin\Provider\ProviderFactory;
@@ -36,7 +36,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
         $persister = $this->getPersister();
 
         $this->event->on(
-            $parser->getEventName(),
+            $requester->getEventName(),
             function (ResponseInterface $response) use ($parser) {
                 $parser->parse($response);
             }
