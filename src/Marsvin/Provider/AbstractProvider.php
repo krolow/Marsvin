@@ -16,6 +16,12 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
 
     protected $process;
 
+    protected $requester;
+
+    protected $persister;
+
+    protected $parser;
+
     public function __construct(EventEmitter $event = null, ProcessManager $process = null)
     {
         $this->event = $event ?: new EventEmitter();
@@ -43,12 +49,14 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
         );
         $this->event->on(
             $parser->getEventName(),
-            function (ResponseInterface $response) use ($self) {
-                $persister->persist($response);
+            function (ResponseInterface $response) use ($persister) {
+                $persister->persists($response);
             }
         );
 
         $this->getRequester()->request();
+
+        $this->process->wait();
     }
 
     /**
@@ -58,7 +66,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
      */
     public function getRequester()
     {
-        return $this->factoryCreate(
+        $this->requester = $this->factoryCreate(
             'requester',
             array(
                 $this->event,
@@ -66,6 +74,8 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
                 $this->getRequesterAdapter()
             )
         );
+
+        return $this->requester;
     }
 
     /**
@@ -75,7 +85,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
      */
     public function getParser()
     {
-        return $this->factoryCreate(
+        $this->parser = $this->factoryCreate(
             'parser',
             array(
                 $this->event,
@@ -83,6 +93,8 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
                 $this->getParserAdapter()
             )
         );
+
+        return $this->parser;
     }
 
     /**
@@ -92,7 +104,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
      */
     public function getPersister()
     {
-        return $this->factoryCreate(
+        $this->persister = $this->factoryCreate(
             'persister',
             array(
                 $this->event,
@@ -100,6 +112,8 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
                 $this->getPersisterAdapter()
             )
         );
+
+        return $this->persister;
     }
 
     /**

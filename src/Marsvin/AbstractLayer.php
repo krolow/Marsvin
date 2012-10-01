@@ -4,6 +4,7 @@ namespace Marsvin;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
 use Spork\Fork;
+use UnexpectedTypeException;
 
 abstract class AbstractLayer
 {
@@ -52,18 +53,23 @@ abstract class AbstractLayer
 
     public function process($process)
     {
-        $self = $this;
+        if (!is_callable($process)) {
+            throw new UnexpectedTypeException($process, 'callable');
+        }
+        
+        $this->process->fork($process);
+    }
 
-        $this->process
-            ->fork($process)
-            ->then(
-                function (Fork $fork) use ($self) {
-                    $self->getEvent()->emit(
-                        $self->getEventName(), 
-                        array($fork->getResult())
-                    );
-                }
-            );
+    public function done($params, $name = null) {
+        if (is_null($name)) {
+            $name = $this->getEventName();    
+        }
+
+        if (!is_array($params)) {
+            $params = array($params);    
+        }
+
+        $this->getEvent()->emit($name, $params);
     }
 
 }

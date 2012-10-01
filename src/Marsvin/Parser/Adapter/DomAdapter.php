@@ -2,8 +2,8 @@
 namespace Marsvin\Parser\Adapter;
 
 use Marsvin\Parser\Adapter\AdapterInterface;
-use Marsvin\ResponseInterface;
 use DOMDocument;
+use InvalidArgumentException;
 
 class DomAdapter implements AdapterInterface
 {
@@ -12,21 +12,26 @@ class DomAdapter implements AdapterInterface
 
     public function __construct()
     {
-        $this->dom = new DomDocument('1.0', 'UTF-8');
+        $this->dom = new DomDocument();
     }
 
-    public function parse(ResponseInterface $response)
+    public function parse($content)
     {
-        if (!$this->fillDOM($result, true)) {
-            $this->fillDOM($result, false);
+        @$this->dom->loadHTML($content);
+        return $this->dom;
+
+        if (!$this->fillDOM($content, true)) {
+            $this->fillDOM($content, false);
         }
         
         if (!$this->dom->validate()) {
-            throw \InvalidArgument('The given response is not HTML/XML!');
+            throw new InvalidArgumentException('The given response is not HTML/XML!');
         }
+
+        return $this->dom;
     }
 
-    private function fillDOM(ResponseInterface $response, $xml = true)
+    private function fillDOM($content, $xml = true)
     {
         $method = 'loadXML';
 
@@ -34,10 +39,9 @@ class DomAdapter implements AdapterInterface
             $method = 'loadHTML';
         }
 
-        $this->dom->{$method}($result->get());
+        $this->dom->{$method}($content);
 
         return $this->dom->validate();
     }
-
 
 }
