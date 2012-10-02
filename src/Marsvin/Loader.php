@@ -14,7 +14,7 @@ class Loader
         $this->providerClass = $providerClass;
     }
 
-    public function load(EventEmitter $event = null, ProcessManager $process)
+    public function load(EventEmitter $event = null, ProcessManager $process = null)
     {
         if (!class_exists($this->providerClass)) {
             throw new \InvalidArgumentException(
