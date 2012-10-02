@@ -1,6 +1,9 @@
 <?php
 namespace Marsvin;
 
+use Evenement\EventEmitter;
+use Spork\ProcessManager;
+
 class Loader
 {
 
@@ -11,7 +14,7 @@ class Loader
         $this->providerClass = $providerClass;
     }
 
-    public function load()
+    public function load(EventEmitter $event = null, ProcessManager $process)
     {
         if (!class_exists($this->providerClass)) {
             throw new \InvalidArgumentException(
@@ -22,7 +25,7 @@ class Loader
                );
         }
 
-        $provider = new $this->providerClass($container);
+        $provider = new $this->providerClass($event, $process);
 
         $interface = 'Marsvin\\Provider\\ProviderInterface';
 
