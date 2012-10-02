@@ -30,7 +30,10 @@ class Generator
 
     public function getDir()
     {
-        return $this->dir . DIRECTORY_SEPARATOR . $this->getClassName() . DIRECTORY_SEPARATOR;
+        return $this->dir
+            . DIRECTORY_SEPARATOR
+            . implode(DIRECTORY_SEPARATOR, explode('\\', $this->namespace))
+            . DIRECTORY_SEPARATOR;
     }
 
     public function setDir($dir)
