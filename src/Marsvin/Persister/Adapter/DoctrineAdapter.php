@@ -2,7 +2,6 @@
 namespace Marsvin\Persister\Adapter;
 
 use Doctrine\ORM\EntityManager;
-use Marsvin\Persister\AdapterInterface;
 
 class DoctrineAdapter implements AdapterInterface
 {
