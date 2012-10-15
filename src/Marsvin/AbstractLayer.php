@@ -1,6 +1,7 @@
 <?php
 namespace Marsvin;
 
+use Symfony\Component\Console\Helper\HelperSet;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
 use Spork\Fork;
@@ -8,6 +9,8 @@ use UnexpectedTypeException;
 
 abstract class AbstractLayer
 {
+
+    protected $helperSet;
 
     protected $event;
 
@@ -17,8 +20,9 @@ abstract class AbstractLayer
 
     protected $eventName;
 
-    public function __construct(EventEmitter $event, ProcessManager $process)
+    public function __construct(HelperSet $helperSet, EventEmitter $event, ProcessManager $process)
     {
+        $this->helperSet = $helperSet;
         $this->event   = $event;
         $this->process = $process;
     }
@@ -31,6 +35,11 @@ abstract class AbstractLayer
     public function getProcess()
     {
         return $this->process;
+    }
+
+    public function getHelperSet()
+    {
+        return $this->helperSet;
     }
 
     public function setEventName($eventName)

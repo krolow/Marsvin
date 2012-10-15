@@ -5,6 +5,7 @@ use Marsvin\AbstractLayer;
 use Marsvin\Requester\Adapter\AdapterInterface;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
+use Symfony\Component\Console\Helper\HelperSet;
 
 abstract class AbstractRequester extends AbstractLayer
 {
@@ -13,10 +14,10 @@ abstract class AbstractRequester extends AbstractLayer
 
     protected $adapter;
 
-    public function __construct(EventEmitter $event, ProcessManager $process, AdapterInterface $adapter)
+    public function __construct(HelperSet $helperSet, EventEmitter $event, ProcessManager $process, AdapterInterface $adapter)
     {
     	$this->adapter = $adapter;
-        parent::__construct($event, $process);
+        parent::__construct($helperSet, $event, $process);
     }
 
     public function getAdapter()

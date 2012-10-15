@@ -1,6 +1,7 @@
 <?php
 namespace Marsvin;
 
+use Symfony\Component\Console\Helper\HelperSet;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
 
@@ -14,7 +15,7 @@ class Loader
         $this->providerClass = $providerClass;
     }
 
-    public function load(EventEmitter $event = null, ProcessManager $process = null)
+    public function load(HelperSet $helperSet, EventEmitter $event = null, ProcessManager $process = null)
     {
         if (!class_exists($this->providerClass)) {
             throw new \InvalidArgumentException(
@@ -25,7 +26,7 @@ class Loader
                );
         }
 
-        $provider = new $this->providerClass($event, $process);
+        $provider = new $this->providerClass($helperSet, $event, $process);
 
         $interface = 'Marsvin\\Provider\\ProviderInterface';
 

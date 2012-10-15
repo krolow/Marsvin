@@ -13,6 +13,11 @@ class DoctrineAdapter implements AdapterInterface
         $this->em = $entityManager;
     }
 
+    public function getEntityManager()
+    {
+        return $this->em;
+    }
+
     public function persist($entity)
     {
         $this->em->persist($entity);

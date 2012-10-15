@@ -8,13 +8,10 @@ use Marsvin\Provider\ProviderFactory;
 use Evenement\EventEmitter;
 use Spork\ProcessManager;
 use Spork\EventDispatcher\EventDispatcher;
+use Symfony\Component\Console\Helper\HelperSet;
 
 abstract class AbstractProvider extends AbstractLayer implements ProviderInterface
 {
-
-    protected $event;
-
-    protected $process;
 
     protected $requester;
 
@@ -22,10 +19,11 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
 
     protected $parser;
 
-    public function __construct(EventEmitter $event = null, ProcessManager $process = null)
+    public function __construct(HelperSet $helperSet, EventEmitter $event = null, ProcessManager $process = null)
     {
-        $this->event = $event ?: new EventEmitter();
-        $this->process = $process ?: new ProcessManager(new EventDispatcher());
+        $event = $event ?: new EventEmitter();
+        $process = $process ?: new ProcessManager(new EventDispatcher());
+        parent::__construct($helperSet, $event, $process);
     }
 
     /**
@@ -69,6 +67,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
         $this->requester = $this->factoryCreate(
             'requester',
             array(
+                $this->helperSet,
                 $this->event,
                 $this->process,
                 $this->getRequesterAdapter()
@@ -88,6 +87,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
         $this->parser = $this->factoryCreate(
             'parser',
             array(
+                $this->helperSet,
                 $this->event,
                 $this->process,
                 $this->getParserAdapter()
@@ -107,6 +107,7 @@ abstract class AbstractProvider extends AbstractLayer implements ProviderInterfa
         $this->persister = $this->factoryCreate(
             'persister',
             array(
+                $this->helperSet,
                 $this->event,
                 $this->process,
                 $this->getPersisterAdapter()
