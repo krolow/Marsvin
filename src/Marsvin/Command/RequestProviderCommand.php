@@ -28,7 +28,7 @@ class RequestProviderCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $loader = new Loader($input->getArgument('provider'));
-        $provider = $loader->load();
+        $provider = $loader->load($this->getApplication()->getHelperSet());
         $provider->import();
     }
 

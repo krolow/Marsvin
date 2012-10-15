@@ -16,7 +16,7 @@ class GenerateProviderCommand extends Command
     public function configure()
     {
         $this->setName('marsvin:generate:provider')
-            ->setDescription('Request one specific Provider')
+            ->setDescription('Generate Provider code strcture')
             ->setDefinition(
                 array(
                     new InputArgument(
