@@ -18,7 +18,7 @@ class DefaultAdapter implements AdapterInterface
 
     public function flush()
     {
-        $this->entities;
+        return $this->entities;
     }
 
 }
