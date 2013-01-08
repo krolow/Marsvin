@@ -120,17 +120,17 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
 
     public function getRequesterAdapter()
     {
-
+        return new BuzzAdapter();
     }
 
     public function getParserAdapter()
     {
-
+        return new DomAdapter();
     }
 
     public function getPersisterAdapter()
     {
-
+        return new DefaultAdapter();
     }
 
 }
