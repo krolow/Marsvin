@@ -9,6 +9,7 @@ If yes, you must know that is always a trivial task, but we have always to think
 
 So... to solve that Marvins was created, Marvins provide a simple API and structure to be followed to you create your parsers or crawler. The main focus is to facilitate the task of parser data from external resources, to extract data from websites or import data from XML, CSV files etc...
 
+And it has more, as a plus it comes with a Process management, that makes enable you open more than one PHP process, so you are able to do more than one thing at the same time.
 
 ## How to use it?
 
