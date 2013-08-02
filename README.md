@@ -1,5 +1,8 @@
 #Marsvin
 
+[![Build Status](https://travis-ci.org/krolow/Marsvin.png)](https://travis-ci.org/krolow/Marsvin)
+[![Latest Stable Version](https://poser.pugx.org/cobaia/marsvin/v/stable.png)](https://packagist.org/packages/cobaia/marsvin)
+[![Total Downloads](https://poser.pugx.org/cobaia/marsvin/downloads.png)](https://packagist.org/packages/cobaia/marsvin)
 
 ## What is it?
 
