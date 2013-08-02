@@ -64,7 +64,7 @@ class FakeSplFileObject extends SplFileObject
         return $this;
     }
 
-    public function fwrite($content = false)
+    public function fwrite($content, $length = null)
     {
         if ($content == false) {
             return false;

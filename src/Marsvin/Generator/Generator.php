@@ -211,7 +211,8 @@ class Generator
             throw new InvalidArgumentException('Generator Name can not be empty');
         }
 
-        return end(explode('\\', $this->namespace)) . $generatorName;
+        $pieces = explode('\\', $this->namespace);
+        return end($pieces) . $generatorName;
     }
 
     /**
