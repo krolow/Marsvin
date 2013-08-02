@@ -6,12 +6,17 @@ use Marsvin\Persister\PersisterInterface;
 use Marsvin\Response;
 use Marsvin\ResponseInterface;
 
-class {{ persister }} extends AbstractPersister implements PersisterInterface
+class {{ className }} extends AbstractPersister implements PersisterInterface
 {
-
+    /**
+     * Perform the persistence
+     * 
+     * @param ResponseInterface $response
+     * 
+     * @return void
+     */
     public function persists(ResponseInterface $response)
     {
         $adapter = $this->getAdapter();
     }
-
 }

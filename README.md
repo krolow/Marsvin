@@ -281,3 +281,12 @@ You can check what is happening here:
 ```bash
 tail -f /tmp/marsvin.log
 ```
+
+## License
+
+Licensed under <a href="http://krolow.mit-license.org/">The MIT License</a>
+Redistributions of files must retain the above copyright notice.
+
+## Author
+
+<a href="http://krolow.com.br">Vinícius Krolow</a>

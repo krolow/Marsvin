@@ -7,16 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Test\Marsvin\Provider;
+use Marsvin\Loader;
 
-use Marsvin\Provider\Provider;
+class LoaderTest extends \PHPUnit_Framework_TestCase {
 
-class ProviderTest extends \PHPUnit_Framework_TestCase
-{
+	public function testConstruct()
+	{
 
-    public function test()
-    {
-
-    }
+	} 
 
 }

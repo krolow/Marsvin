@@ -1,45 +1,58 @@
 <?php
+/*
+ * This file is part of the Marsvin package.
+ *
+ * (c) Vinícius Krolow <krolow@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Marsvin\Generator;
 
-use Marsvin\Generator\Generator;
 use SplFileObject;
-use RuntimeException;
+use Marsvin\Generator\GeneratorInterface;
 
-class ProviderGenerator extends Generator
+/**
+ * Define basic info to generate one ProviderClass based on the Provider Skeleton
+ * 
+ * 
+ * @author Vinícius Krolow <krolow@gmail.com>
+ */
+class ProviderGenerator implements GeneratorInterface
 {
-
-    const SUFIX = 'Provider';
-
-    public function __construct($namespace, $name)
+    /**
+     * Template file to generate
+     * 
+     * @return SplFileObject Template File
+     */
+    public function getTemplateFile()
     {
-        parent::__construct(
-            $namespace,
-            $name,
-            new SplFileObject(
-                __DIR__ . DIRECTORY_SEPARATOR . 'Skeleton' . DIRECTORY_SEPARATOR . self::SUFIX . '.php'
-            )
+        return new SplFileObject(
+            __DIR__
+            . DIRECTORY_SEPARATOR 
+            . 'Skeleton' 
+            . DIRECTORY_SEPARATOR 
+            . 'Provider.php.tpl'
         );
     }
-
-    public function generate()
+    
+    /**
+     * Retrive the generator name
+     * 
+     * @return string Generator name
+     */
+    public function getName()
     {
-        $dir = $this->getDir();
-
-        if (is_dir($dir)) {
-            throw new RuntimeException(
-                sprintf(
-                    'It\'s not possible to generate the provider as the dir %s is not empty',
-                    $dir
-                )
-            );
-        }
-        
-        $parameters = array(
-            'namespace' => $this->getNamespace(),
-            'provider' => $this->getClassName() . self::SUFIX
-        );
-
-        $this->renderFile($parameters);
+        return 'Provider';
     }
 
+    /**
+     * Additional params to parse
+     * 
+     * @return array List of aditional params to replace
+     */
+    public function getParams()
+    {
+        return array();
+    }
 }

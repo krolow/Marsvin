@@ -6,12 +6,17 @@ use Marsvin\Parser\ParserInterface;
 use Marsvin\Response;
 use Marsvin\ResponseInterface;
 
-class {{ parser }} extends AbstractParser implements ParserInterface
+class {{ className }} extends AbstractParser implements ParserInterface
 {
-    
+    /**
+     * Perform the parser
+     * 
+     * @param ResponseInterface $response
+     * 
+     * @return void
+     */
     public function parse(ResponseInterface $response)
     {
         $adapter = $this->getAdapter();
     }
-
 }
