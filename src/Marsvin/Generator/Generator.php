@@ -181,18 +181,27 @@ class Generator
     }
 
     /**
-     * Retrive the output file
+     * Create the outputFile
      * 
-     * @param string $file when a string is given creates the SplFileObject
+     * 
+     * @var string $file The file path
+     * 
+     * @return SplFileObject created
+     */
+    public function createOutputFile($file)
+    {
+        $this->setOutputFile(new SplFileObject($file, 'a+'));
+
+        return $this->outputFile;
+    }
+
+    /**
+     * Retrive the output file
      * 
      * @return SplFileObject
      */
-    public function getOutputFile($file = null)
+    public function getOutputFile()
     {
-        if (is_null($this->outputFile) && !is_null($file)) {
-            $this->outputFile = new SplFileObject($file, 'a+');
-        }
-
         return $this->outputFile;
     }
 
@@ -267,7 +276,10 @@ class Generator
         $params = $generator->getParams() + $defaultParams;
         $content = $this->prepareContent($generator->getTemplateFile(), $params);
 
-        return $this->writeFile($className . '.php', $content);
+        $outputFile = $this->writeFile($className . '.php', $content);
+        $this->outputFile = null;
+
+        return $outputFile;
     }
 
     /**
@@ -285,12 +297,12 @@ class Generator
     {
         if (!$templateFile->isFile()) {
             throw new TemplateFileDoesNotExistException(
-                sprintf('We could not find the template file: %s', $templateFile)
+                sprintf('We could not find the template file: %s', $templateFile->getRealPath())
             );
         }
         if (!$templateFile->isReadable()) {
             throw new TemplateFileIsNotReadableException(
-                sprintf('The template file is not readable file: %s', $templateFile)
+                sprintf('The template file is not readable file: %s', $templateFile->getRealPath())
             );
         }
 
@@ -322,12 +334,15 @@ class Generator
             $filesystem->mkdir($finalDirectory, 0755);
         }
 
-        $outputFile = $this->getOutputFile($finalDirectory . $filename);
-
-        if ($outputFile->isFile()) {
+        if ($filesystem->exists($finalDirectory . $filename)) {
             throw new FileAlreadyExistInDirectoryException(
-                sprintf('The file %s already exists, so we are not touch in him!', $outputFile)
-            );
+                sprintf('The file %s already exists, so we are not touch in him!', $finalDirectory . $filename)
+            );            
+        }
+
+        $outputFile = $this->getOutputFile();
+        if (is_null($outputFile)) {
+            $outputFile = $this->createOutputFile($finalDirectory . $filename);
         }
 
         if (!$outputFile->fwrite($content)) {

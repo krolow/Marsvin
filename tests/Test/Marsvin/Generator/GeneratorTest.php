@@ -128,10 +128,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             'Symfony\Component\Filesystem\Filesystem',
             $this->generator->getFilesystem()
         );
-        $this->assertInstanceOf(
-            'SplFileObject',
-            $this->generator->getOutputFile(__FILE__)
-        );
         $this->assertEquals('Marsvin\\Testing', $this->generator->getNamespace());
         $this->assertEquals('/home/marsvin', $this->generator->getDirectory());
     }
@@ -270,7 +266,19 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testing', $this->getFileOutput($file));
 
         $exception = false;
-        $this->generator->setOutputFile($this->createSplFileMock(true, true));
+
+        $filesystem = $this->getMock('Symfony\Component\Filesystem\Filesystem');
+        $filesystem->expects($this->at(1))
+            ->method('mkdir')
+            ->will($this->returnValue(true));
+        $filesystem->expects($this->at(1))
+            ->method('exists')
+            ->will($this->returnValue(false));
+        $filesystem->expects($this->at(2))
+            ->method('exists')
+            ->will($this->returnValue(true));        
+
+        $this->generator->setFilesystem($filesystem);
         try {
             $this->generator->writeFile('test', 'testing');
         } catch (FileAlreadyExistInDirectoryException $e) {
@@ -321,7 +329,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $expected = 'Marsvin\Testing TestingProvider Works';
         $this->assertEquals($expected, $result);
 
-        $file = $this->generator->setNamespace('Cobaia\\Krolow')
+        $file = $this->generator
+            ->setOutputFile($this->createSplFileMock(false, false))
+            ->setNamespace('Cobaia\\Krolow')
             ->generate(
                 $this->createGeneratorMock(
                     'Parser',

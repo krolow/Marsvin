@@ -10,8 +10,6 @@ class {{ className }} extends AbstractRequester implements RequesterInterface
     /**
      * Perform the request
      * 
-     * @param ResponseInterface $response
-     * 
      * @return void
      */
     public function request()
